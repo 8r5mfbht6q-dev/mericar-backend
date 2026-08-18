@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.mericar.entity.RolUsuario;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -182,11 +182,22 @@ public class UsuarioService {
         );
 
 
+        try {
+
         usuario.setRol(
+                RolUsuario.valueOf(
                 request.getRol()
                         .trim()
                         .toUpperCase()
+                )
         );
+
+        } catch (IllegalArgumentException e) {
+
+        throw new RuntimeException(
+                "El rol seleccionado no es válido."
+        );
+        }
 
 
         usuario.setActivo(

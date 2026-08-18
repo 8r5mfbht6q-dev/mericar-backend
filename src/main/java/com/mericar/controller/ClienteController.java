@@ -1,5 +1,6 @@
 package com.mericar.controller;
 
+import com.mericar.dto.ClienteRequest;
 import com.mericar.entity.Cliente;
 import com.mericar.service.ClienteService;
 
@@ -7,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.mericar.dto.ClienteResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -34,11 +35,11 @@ public class ClienteController {
     // LISTAR CLIENTES POR DÍA
     // ==========================================
 
-    @GetMapping("/dia/{idDia}")
+    @GetMapping("/dia/{idDetalleParametro}")
     public List<Cliente> listarPorDia(
-            @PathVariable Short idDia
+            @PathVariable Long idDetalleParametro
     ) {
-        return service.listarPorDia(idDia);
+        return service.listarPorDia(idDetalleParametro);
     }
 
 
@@ -47,7 +48,7 @@ public class ClienteController {
     // ==========================================
 
     @GetMapping("/{id}")
-    public Cliente obtener(
+    public ClienteResponse obtener(
             @PathVariable Long id
     ) {
         return service.obtener(id);
@@ -60,7 +61,7 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<?> guardar(
-            @RequestBody Cliente cliente
+            @RequestBody ClienteRequest cliente
     ) {
 
         try {
@@ -76,7 +77,7 @@ public class ClienteController {
 
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(e.toString());
+                    .body(e.getMessage());
         }
     }
 
@@ -88,7 +89,7 @@ public class ClienteController {
     @PutMapping("/{id}")
     public Cliente actualizar(
             @PathVariable Long id,
-            @RequestBody Cliente cliente
+            @RequestBody ClienteRequest cliente
     ) {
         return service.actualizar(id, cliente);
     }

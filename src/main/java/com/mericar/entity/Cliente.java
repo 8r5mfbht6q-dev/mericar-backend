@@ -28,8 +28,7 @@ public class Cliente {
 
     private String direccion;
 
-    @Column(name = "id_dia")
-    private Short idDia;
+
 
     private String observacion;
 
